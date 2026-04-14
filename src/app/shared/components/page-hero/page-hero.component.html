@@ -1,0 +1,17 @@
+<section
+  class="ve-page-hero"
+  [class.ve-page-hero-sm]="compact"
+  [style.background-image]="'url(' + backgroundImage + ')'"
+>
+  <div class="ve-page-hero-overlay"></div>
+  <div class="container ve-page-hero-content">
+    <span class="ve-section-tag">{{ tag }}</span>
+    <h1 [innerHTML]="titleHtml"></h1>
+    <nav aria-label="breadcrumb">
+      <ol class="ve-breadcrumb">
+        <li><a routerLink="/">Home</a></li>
+        <li class="active">{{ breadcrumbLabel }}</li>
+      </ol>
+    </nav>
+  </div>
+</section>

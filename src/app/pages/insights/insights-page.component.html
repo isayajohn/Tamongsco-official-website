@@ -1,0 +1,106 @@
+<app-page-hero
+  tag="News &amp; Updates"
+  titleHtml="Latest <span>TAMONGSCO Updates</span>"
+  backgroundImage="img/bg-img/24.jpg"
+  breadcrumbLabel="News & Updates"
+></app-page-hero>
+
+<section class="ve-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        <div class="row">
+          @for (post of posts; track post.title) {
+            <div class="col-12 col-md-6 wow fadeInUp" [attr.data-wow-delay]="post.delay">
+              <div class="ve-insight-card">
+                <div
+                  class="ve-insight-img bg-img"
+                  [style.background-image]="'url(' + post.image + ')'"
+                ></div>
+                <div class="ve-insight-body">
+                  <span class="ve-insight-cat">{{ post.category }}</span>
+                  <h5>
+                    <a [routerLink]="post.route">{{ post.title }}</a>
+                  </h5>
+                  <p>{{ post.excerpt }}</p>
+                  <div class="ve-insight-meta">
+                    <span>
+                      <app-site-icon name="calendar_today" [size]="16"></app-site-icon>
+                      {{ post.date }}
+                    </span>
+                    <a [routerLink]="post.route">
+                      Read More <app-site-icon name="arrow_forward" [size]="16"></app-site-icon>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="ve-pagination">
+          <a href="javascript:void(0)" class="active">1</a>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="ve-sidebar">
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Search</h5>
+            <div class="ve-search-box">
+              <input type="text" placeholder="Search updates..." />
+              <button type="button">
+                <app-site-icon name="search" [size]="18"></app-site-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Categories</h5>
+            <ul class="ve-cat-list">
+              @for (category of categories; track category.label) {
+                <li>
+                  <a href="javascript:void(0)"
+                    >{{ category.label }} <span>{{ category.count }}</span></a
+                  >
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Recent Posts</h5>
+            @for (post of recentPosts; track post.title) {
+              <div class="ve-recent-post">
+                <div
+                  class="ve-rp-img bg-img"
+                  [style.background-image]="'url(' + post.image + ')'"
+                ></div>
+                <div>
+                  <a [routerLink]="post.route">{{ post.title }}</a>
+                  <span>
+                    <app-site-icon name="calendar_today" [size]="14"></app-site-icon>
+                    {{ post.date }}
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Popular Tags</h5>
+            <div class="ve-tags">
+              @for (tag of tags; track tag) {
+                <a href="javascript:void(0)">{{ tag }}</a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-newsletter-banner
+  [title]="newsletter.title"
+  [description]="newsletter.description"
+></app-newsletter-banner>

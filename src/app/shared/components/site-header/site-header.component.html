@@ -1,0 +1,40 @@
+<header class="ve-header" id="ve-sticky" [class.scrolled]="scrolled()">
+  <div class="container-fluid ve-nav-wrap">
+    <div class="ve-logo">
+      <a routerLink="/">
+        <img src="img/logo.jpeg" alt="TAMONGSCO logo" class="ve-logo-mark" />
+      </a>
+    </div>
+
+    <nav class="ve-nav">
+      <ul>
+        <li><a routerLink="/" [class.active]="isActive('/')">Home</a></li>
+        <li><a routerLink="/about" [class.active]="isActive('/about')">About</a></li>
+        <li><a routerLink="/services" [class.active]="isActive('/services')">Services</a></li>
+        <li><a routerLink="/resources" [class.active]="isActive('/resources')">Resources</a></li>
+        <li>
+          <a routerLink="/insights" [class.active]="isSectionActive(['/insights'])"
+            >News & Updates</a
+          >
+        </li>
+        <li><a routerLink="/contact" [class.active]="isActive('/contact')">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="ve-nav-cta">
+      <a routerLink="/contact" class="ve-cta-btn">
+        Become a Member <app-site-icon name="arrow_forward" [size]="18"></app-site-icon>
+      </a>
+    </div>
+
+    <button class="ve-toggler" type="button" (click)="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="ve-mobile-menu" [class.open]="mobileOpen()">
+    <ul>
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/about">About TAMONGSCO</a></li>
+      <li><a routerLink="/services">Services</a></li>
+      <li><a routerLink="/resources">Resources</a></li>

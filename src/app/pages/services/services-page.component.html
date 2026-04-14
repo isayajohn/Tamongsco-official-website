@@ -1,0 +1,91 @@
+<app-page-hero
+  tag="Our Services"
+  titleHtml="How TAMONGSCO <span>Supports Members</span>"
+  backgroundImage="img/bg-img/20.jpg"
+  breadcrumbLabel="Services"
+></app-page-hero>
+
+<section class="ve-section">
+  <div class="container">
+    <div class="ve-section-header text-center">
+      <span class="ve-section-tag">Support Areas</span>
+      <h2>Services Built Around <span>Representation and Collaboration</span></h2>
+      <p>These sections are drawn from the public TAMONGSCO homepage and navigation structure.</p>
+    </div>
+    <div class="ve-services-grid">
+      @for (service of services; track service.title) {
+        <div class="ve-service-card wow fadeInUp" [attr.data-wow-delay]="service.delay">
+          <div class="ve-service-icon">
+            <app-site-icon [name]="service.icon" [size]="28"></app-site-icon>
+          </div>
+          <h4>{{ service.title }}</h4>
+          <p>{{ service.description }}</p>
+          <a routerLink="/contact" class="ve-card-link">
+            Learn more <app-site-icon name="arrow_forward" [size]="18"></app-site-icon>
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="ve-process-section">
+  <div class="container">
+    <div class="ve-section-header text-center">
+      <span class="ve-section-tag">How It Works</span>
+      <h2>Getting Involved is <span>Simple</span></h2>
+    </div>
+    <div class="ve-process-grid">
+      @for (step of steps; track step.number; let last = $last) {
+        <div class="ve-process-step wow fadeInUp" [attr.data-wow-delay]="step.delay">
+          <div class="ve-process-num">{{ step.number }}</div>
+          <h5>{{ step.title }}</h5>
+          <p>{{ step.description }}</p>
+        </div>
+        @if (!last) {
+          <div class="ve-process-arrow">
+            <app-site-icon name="arrow_forward" [size]="22"></app-site-icon>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<section class="ve-section ve-faq-section">
+  <div class="container">
+    <div class="row align-items-start">
+      <div class="col-12 col-lg-5 wow fadeInLeft" data-wow-delay="100ms">
+        <span class="ve-section-tag">Common Questions</span>
+        <h2>Frequently Asked <span>Questions</span></h2>
+        <p>
+          Can't find what you're looking for?
+          <a routerLink="/contact" style="color: var(--ve-gold)">Reach out to us</a> and we'll
+          respond within 24 hours.
+        </p>
+        <a routerLink="/contact" class="ve-btn-primary mt-30">Contact TAMONGSCO</a>
+      </div>
+      <div class="col-12 col-lg-7 wow fadeInRight" data-wow-delay="200ms">
+        <app-faq-list [items]="faqs"></app-faq-list>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ve-cta-banner bg-img" style="background-image: url(img/bg-img/6.jpg)">
+  <div class="ve-cta-overlay"></div>
+  <div class="container ve-cta-content">
+    <div class="row align-items-center">
+      <div class="col-12 col-lg-8">
+        <h2>Ready to Connect Your Institution with <span>TAMONGSCO?</span></h2>
+        <p>
+          Reach out to learn more about membership, support areas, and the latest education-related
+          updates.
+        </p>
+      </div>
+      <div class="col-12 col-lg-4 text-lg-right">
+        <a routerLink="/contact" class="ve-btn-white">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>

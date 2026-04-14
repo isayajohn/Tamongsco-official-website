@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ve-light, #f7fbf2);
+  color: var(--ve-text, #35506b);
+  overflow-x: hidden;
+}
+
+.ve-logo-mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(var(--ve-gold-rgb, 255, 223, 0), 0.88);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(var(--ve-navy-rgb, 22, 87, 158), 0.18);
+}
+
+.ve-footer-logo,
+.ve-logo a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.ve-footer-logo .ve-logo-text,
+.ve-logo .ve-logo-text {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.ve-icon-accent {
+  color: var(--ve-gold);
+}

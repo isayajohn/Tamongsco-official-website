@@ -1,0 +1,29 @@
+<app-page-hero
+  tag="Resources"
+  titleHtml="Useful <span>Links &amp; Resources</span>"
+  backgroundImage="img/bg-img/13.jpg"
+  breadcrumbLabel="Resources"
+></app-page-hero>
+
+<section class="ve-section ve-elements-section">
+  <div class="container">
+    <div class="ve-el-block">
+      <h3 class="ve-el-title"><span>01</span> Resource Areas</h3>
+      <div class="ve-services-grid">
+        @for (resource of resourceCards; track resource.title) {
+          <div class="ve-service-card">
+            <div class="ve-service-icon">
+              <app-site-icon [name]="resource.icon" [size]="28"></app-site-icon>
+            </div>
+            <h4>{{ resource.title }}</h4>
+            <p>{{ resource.description }}</p>
+            <a [routerLink]="resource.link || '/resources'" class="ve-card-link">
+              View <app-site-icon name="arrow_forward" [size]="18"></app-site-icon>
+            </a>
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>

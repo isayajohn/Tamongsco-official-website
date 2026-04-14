@@ -1,0 +1,78 @@
+<footer class="ve-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-lg-4 mb-50">
+        <div class="ve-footer-brand">
+          <a routerLink="/" class="ve-footer-logo">
+            <img src="img/logo.jpeg" [alt]="profile.name + ' logo'" class="ve-logo-mark" />
+          </a>
+          <p>{{ profile.tagline }}</p>
+          <div class="ve-social">
+            @for (social of socialLinks; track social.label) {
+              <a [href]="social.href" [attr.aria-label]="social.label">
+                <app-site-icon [name]="social.icon" [size]="18"></app-site-icon>
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-2 mb-50">
+        <h5 class="ve-footer-title">Quick Links</h5>
+        <ul class="ve-footer-links">
+          @for (link of quickLinks; track link.route) {
+            <li>
+              <a [routerLink]="link.route">{{ link.label }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3 mb-50">
+        <h5 class="ve-footer-title">Our Services</h5>
+        <ul class="ve-footer-links">
+          @for (service of services; track service) {
+            <li>
+              <a [routerLink]="'/services'">{{ service }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3 mb-50">
+        <h5 class="ve-footer-title">Get In Touch</h5>
+        <ul class="ve-footer-contact">
+          <li>
+            <app-site-icon name="location_on" [size]="18" class="ve-icon-accent"></app-site-icon>
+            {{ profile.location }}
+          </li>
+          <li>
+            <app-site-icon name="call" [size]="18" class="ve-icon-accent"></app-site-icon>
+            {{ profile.phone }}
+          </li>
+          <li>
+            <app-site-icon name="mail" [size]="18" class="ve-icon-accent"></app-site-icon>
+            {{ profile.email }}
+          </li>
+          <li>
+            <app-site-icon name="language" [size]="18" class="ve-icon-accent"></app-site-icon>
+            {{ profile.website }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ve-footer-bottom">
+    <div class="container">
+      <div class="ve-footer-bottom-inner">
+        <p>Copyright &copy; {{ currentYear }} {{ profile.name }}. All rights reserved.</p>
+        <ul>
+          <li><a href="javascript:void(0)">Privacy Policy</a></li>
+          <li><a href="javascript:void(0)">Terms of Use</a></li>
+          <li><a href="javascript:void(0)">Cookie Preferences</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,117 @@
+<app-page-hero
+  tag="Contact Us"
+  titleHtml="Connect with <span>TAMONGSCO</span>"
+  backgroundImage="img/bg-img/22.jpg"
+  breadcrumbLabel="Contact"
+></app-page-hero>
+
+<section class="ve-contact-cards-section">
+  <div class="container">
+    <div class="ve-contact-cards-grid">
+      @for (card of infoCards; track card.title) {
+        <div class="ve-contact-info-card wow fadeInUp">
+          <div class="ve-ci-icon">
+            <app-site-icon [name]="card.icon" [size]="24"></app-site-icon>
+          </div>
+          <h5>{{ card.title }}</h5>
+          <p [innerHTML]="card.text.replaceAll('\n', '<br>')"></p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="ve-section ve-contact-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-7 wow fadeInLeft" data-wow-delay="100ms">
+        <div class="ve-contact-form-wrap">
+          <span class="ve-section-tag">Send a Message</span>
+          <h2>Reach Out to <span>Our Team</span></h2>
+          <p>
+            Use the form below for membership inquiries, resource requests, or general TAMONGSCO
+            support.
+          </p>
+          <form class="ve-contact-form" (submit)="preventSubmit($event)">
+            <div class="ve-form-row">
+              <div class="ve-form-group">
+                <label>Full Name</label><input type="text" placeholder="Your full name" required />
+              </div>
+              <div class="ve-form-group">
+                <label>Email Address</label><input type="email" placeholder="Your email" required />
+              </div>
+            </div>
+            <div class="ve-form-row">
+              <div class="ve-form-group">
+                <label>Phone Number</label><input type="tel" placeholder="Your phone" />
+              </div>
+              <div class="ve-form-group">
+                <label>Topic</label>
+                <select>
+                  <option>Select a topic</option>
+                  <option>Membership</option>
+                  <option>Advocacy</option>
+                  <option>Resources</option>
+                  <option>News & Updates</option>
+                  <option>General Inquiry</option>
+                </select>
+              </div>
+            </div>
+            <div class="ve-form-group">
+              <label>Your Message</label>
+              <textarea
+                rows="5"
+                placeholder="Tell us how TAMONGSCO can support your institution..."
+              ></textarea>
+            </div>
+            <button type="submit" class="ve-btn-primary">
+              Send Message <app-site-icon name="send" [size]="18"></app-site-icon>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-5 wow fadeInRight" data-wow-delay="200ms">
+        <div class="ve-contact-aside">
+          <div class="ve-ca-box">
+            <h4>Why Institutions Connect With Us</h4>
+            <ul class="ve-ca-list">
+              @for (reason of reasons; track reason) {
+                <li>
+                  <app-site-icon name="task_alt" [size]="18" class="ve-icon-accent"></app-site-icon>
+                  {{ reason }}
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="ve-ca-hours">
+            <h5>
+              <app-site-icon name="checklist" [size]="18" class="ve-icon-accent"></app-site-icon>
+              Quick Access
+            </h5>
+            <ul>
+              @for (item of accessLinks; track item.label) {
+                <li>
+                  <span>{{ item.label }}</span
+                  ><strong>{{ item.value }}</strong>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="ve-ca-social">
+            <h5>Connect With Us</h5>
+            <div class="ve-social">
+              @for (social of socialLinks; track social.label) {
+                <a [href]="social.href" [attr.aria-label]="social.label">
+                  <app-site-icon [name]="social.icon" [size]="18"></app-site-icon>
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

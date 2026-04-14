@@ -1,0 +1,14 @@
+<section class="ve-counter-section" #counterSection>
+  <div class="container">
+    <div class="ve-counter-grid">
+      @for (item of items; track item.label; let index = $index) {
+        <div class="ve-counter-item wow fadeInUp" [attr.data-wow-delay]="item.delay">
+          <app-site-icon [name]="item.icon" [size]="36" class="ve-icon-accent"></app-site-icon>
+          <strong class="counter">{{ displayValues()[index].toLocaleString() }}</strong
+          ><span>{{ item.suffix }}</span>
+          <p>{{ item.label }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

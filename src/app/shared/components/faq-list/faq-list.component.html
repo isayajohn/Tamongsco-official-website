@@ -1,0 +1,11 @@
+<div class="ve-faq-list">
+  @for (item of items; track item.question; let index = $index) {
+    <div class="ve-faq-item" [class.open]="openIndex() === index">
+      <div class="ve-faq-q" (click)="toggle(index)">
+        <span>{{ item.question }}</span>
+        <app-site-icon name="add" [size]="18" class="ve-icon-accent"></app-site-icon>
+      </div>
+      <div class="ve-faq-a">{{ item.answer }}</div>
+    </div>
+  }
+</div>

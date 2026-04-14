@@ -1,0 +1,181 @@
+<app-page-hero
+  tag="Updates"
+  titleHtml="Latest <span>News &amp; Updates</span>"
+  backgroundImage="img/bg-img/10.jpg"
+  breadcrumbLabel="Article"
+  [compact]="true"
+></app-page-hero>
+
+<section class="ve-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-8">
+        <article class="ve-article">
+          <div
+            class="ve-article-featured bg-img"
+            style="background-image: url(img/bg-img/10.jpg)"
+          ></div>
+          <div class="ve-article-body">
+            <p class="ve-article-lead">
+              TAMONGSCO presents itself as a national platform for non-government schools and
+              colleges, focused on collaboration, representation, and educational excellence across
+              Tanzania.
+            </p>
+            <h3>1. Empowering Education</h3>
+            <p>
+              The homepage headline emphasizes uniting schools and colleges for a brighter future,
+              positioning the association as a connector for education providers throughout the
+              country.
+            </p>
+            <h3>2. Representation and Collaboration</h3>
+            <p>
+              The site highlights advocacy, collaboration, and resources as its public-facing
+              support areas while also stressing communication with government bodies.
+            </p>
+            <blockquote class="ve-blockquote">
+              <p>
+                "At TAMONGSCO, we connect and represent non-government educational institutions
+                across Tanzania."
+              </p>
+              <cite>— Homepage message</cite>
+            </blockquote>
+            <h3>3. Practical Member Support</h3>
+            <p>
+              Membership is described as a way to access networking opportunities, resources, and
+              support that help institutions thrive in a competitive environment.
+            </p>
+            <h3>4. Community Voice</h3>
+            <p>
+              Member feedback on the site points to better operations, stronger policy guidance, and
+              improved access to helpful resources through the association.
+            </p>
+            <h3>5. Staying Updated</h3>
+            <p>
+              The news area and quick links show that updates, events, and member information are
+              part of the organization’s ongoing communication.
+            </p>
+            <div class="ve-article-tags">
+              <strong>Tags:</strong>
+              @for (tag of tags.slice(0, 4); track tag) {
+                <a href="javascript:void(0)">{{ tag }}</a>
+              }
+            </div>
+            <div class="ve-article-share">
+              <strong>Share:</strong>
+              <a href="javascript:void(0)"
+                ><app-site-icon name="public" [size]="18"></app-site-icon
+              ></a>
+              <a href="javascript:void(0)"
+                ><app-site-icon name="forum" [size]="18"></app-site-icon
+              ></a>
+              <a href="javascript:void(0)"
+                ><app-site-icon name="business_center" [size]="18"></app-site-icon
+              ></a>
+            </div>
+          </div>
+        </article>
+
+        <div class="ve-comments-section">
+          <h4>{{ comments.length }} Comments</h4>
+          @for (comment of comments; track comment.name + comment.date) {
+            <div class="ve-comment" [class.ve-comment-reply]="comment.isReply">
+              <div
+                class="ve-comment-avatar bg-img"
+                [style.background-image]="'url(' + comment.image + ')'"
+              ></div>
+              <div class="ve-comment-body">
+                <div class="ve-comment-meta">
+                  <strong>{{ comment.name }}</strong
+                  ><span>{{ comment.date }}</span>
+                </div>
+                <p>{{ comment.text }}</p>
+                <a href="javascript:void(0)" class="ve-reply-btn">Reply</a>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="ve-comment-form-wrap">
+          <h4>Leave a Comment</h4>
+          <form class="ve-contact-form" (submit)="preventSubmit($event)">
+            <div class="ve-form-row">
+              <div class="ve-form-group">
+                <label>Name</label><input type="text" placeholder="Your name" required />
+              </div>
+              <div class="ve-form-group">
+                <label>Email</label><input type="email" placeholder="Your email" required />
+              </div>
+            </div>
+            <div class="ve-form-group">
+              <label>Comment</label
+              ><textarea rows="5" placeholder="Share your thoughts..."></textarea>
+            </div>
+            <button type="submit" class="ve-btn-primary">
+              Post Comment <app-site-icon name="send" [size]="18"></app-site-icon>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="ve-sidebar">
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Search</h5>
+            <div class="ve-search-box">
+              <input type="text" placeholder="Search updates..." />
+              <button type="button">
+                <app-site-icon name="search" [size]="18"></app-site-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Categories</h5>
+            <ul class="ve-cat-list">
+              @for (category of categories; track category.label) {
+                <li>
+                  <a href="javascript:void(0)"
+                    >{{ category.label }} <span>{{ category.count }}</span></a
+                  >
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Recent Posts</h5>
+            @for (post of recentPosts; track post.title) {
+              <div class="ve-recent-post">
+                <div
+                  class="ve-rp-img bg-img"
+                  [style.background-image]="'url(' + post.image + ')'"
+                ></div>
+                <div>
+                  <a [routerLink]="post.route">{{ post.title }}</a>
+                  <span>
+                    <app-site-icon name="calendar_today" [size]="14"></app-site-icon>
+                    {{ post.date }}
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <div class="ve-sidebar-widget">
+            <h5 class="ve-sidebar-title">Popular Tags</h5>
+            <div class="ve-tags">
+              @for (tag of tags; track tag) {
+                <a href="javascript:void(0)">{{ tag }}</a>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-newsletter-banner
+  [title]="newsletter.title"
+  [description]="newsletter.description"
+></app-newsletter-banner>

@@ -1,0 +1,14 @@
+@if (showPreloader()) {
+  <div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+}
+
+<app-site-header></app-site-header>
+<router-outlet></router-outlet>
+<app-site-footer></app-site-footer>
