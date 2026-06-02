@@ -1,7 +1,11 @@
 from pathlib import Path
 import os
+from urllib.parse import unquote, urlparse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+FRONTEND_DIST_DIR = Path(
+    os.environ.get("FRONTEND_DIST_DIR", BASE_DIR.parent / "dist" / "vaultedge-angular" / "browser")
+)
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-tamongsco-secret-key")
 DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
@@ -21,6 +25,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -34,7 +39,7 @@ ROOT_URLCONF = "tamongsco_backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [FRONTEND_DIST_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -48,8 +53,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tamongsco_backend.wsgi.application"
 
-DATABASES = {
-    "default": {
+
+def database_config():
+    database_url = os.environ.get("DATABASE_URL", "")
+    if database_url:
+        parsed = urlparse(database_url)
+        if parsed.scheme == "sqlite":
+            return {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": unquote(parsed.path),
+            }
+        if parsed.scheme in {"postgres", "postgresql"}:
+            return {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": parsed.path.lstrip("/"),
+                "USER": unquote(parsed.username or ""),
+                "PASSWORD": unquote(parsed.password or ""),
+                "HOST": parsed.hostname or "127.0.0.1",
+                "PORT": str(parsed.port or 5432),
+            }
+
+    return {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ.get("POSTGRES_DB", "tamongsco"),
         "USER": os.environ.get("POSTGRES_USER", "mac"),
@@ -57,7 +81,9 @@ DATABASES = {
         "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
         "PORT": os.environ.get("POSTGRES_PORT", "5433"),
     }
-}
+
+
+DATABASES = {"default": database_config()}
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -72,6 +98,14 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+WHITENOISE_ROOT = FRONTEND_DIST_DIR
+WHITENOISE_USE_FINDERS = True
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
