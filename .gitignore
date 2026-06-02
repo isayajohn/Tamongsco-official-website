@@ -11,6 +11,15 @@
 npm-debug.log
 yarn-error.log
 
+# Python / Django deployment
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+.venv/
+.prod.env
+backend/staticfiles/
+
 # IDEs and editors
 .idea/
 .project
