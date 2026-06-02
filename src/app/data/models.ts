@@ -43,6 +43,7 @@ export interface InsightPost {
   category: string;
   title: string;
   excerpt: string;
+  bodyHtml?: string;
   image: string;
   date: string;
   route: string;

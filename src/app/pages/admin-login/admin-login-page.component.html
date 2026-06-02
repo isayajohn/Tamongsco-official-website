@@ -1,0 +1,68 @@
+<section class="ve-admin-template ve-auth-page">
+  <div class="ve-auth-visual">
+    <a routerLink="/" class="ve-auth-brand-wide">
+      <img src="img/logo.jpeg" alt="TAMONGSCO logo" />
+      <span>TAMONGSCO</span>
+    </a>
+    <div>
+      <span class="ve-auth-kicker">Backend workspace</span>
+      <h2>Manage every part of the public site from one secure dashboard.</h2>
+      <p>Update content, review messages, maintain news posts, and keep member information current.</p>
+    </div>
+  </div>
+
+  <div class="ve-auth-card">
+    <div class="ve-auth-brand">
+      <a routerLink="/">
+        <img src="img/logo.jpeg" alt="TAMONGSCO logo" />
+        <span>TAMONGSCO</span>
+      </a>
+      <h1>Sign in to your account</h1>
+    </div>
+
+    <form class="ve-auth-form" (submit)="login($event)">
+      <div class="ve-form-field">
+        <label for="admin-username">Username</label>
+        <input
+          id="admin-username"
+          type="text"
+          autocomplete="username"
+          required
+          autofocus
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Superuser username"
+        />
+      </div>
+
+      <div class="ve-form-field">
+        <label for="admin-password">Password</label>
+        <input
+          id="admin-password"
+          type="password"
+          autocomplete="current-password"
+          required
+          minlength="6"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Password"
+        />
+      </div>
+
+      <div class="ve-auth-row">
+        <label class="ve-check">
+          <input type="checkbox" />
+          <span>Remember me</span>
+        </label>
+      </div>
+
+      @if (submitState === 'error') {
+        <p class="ve-admin-error">Invalid superuser credentials.</p>
+      }
+
+      <button class="ve-auth-submit" type="submit" [disabled]="submitState === 'sending'">
+        {{ submitState === 'sending' ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+  </div>
+</section>

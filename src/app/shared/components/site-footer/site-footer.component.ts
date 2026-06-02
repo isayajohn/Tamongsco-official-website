@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { footerQuickLinks, footerServices, organizationProfile, socialLinks } from '../../../data';
+import { SiteContentService } from '../../../services/site-content.service';
 import { SiteIconComponent } from '../site-icon/site-icon.component';
 
 @Component({
@@ -11,9 +12,20 @@ import { SiteIconComponent } from '../site-icon/site-icon.component';
   styleUrl: './site-footer.component.scss',
 })
 export class SiteFooterComponent {
+  private readonly siteContent = inject(SiteContentService);
+
   protected readonly currentYear = new Date().getFullYear();
-  protected readonly quickLinks = footerQuickLinks;
-  protected readonly services = footerServices;
-  protected readonly profile = organizationProfile;
-  protected readonly socialLinks = socialLinks;
+  protected quickLinks = footerQuickLinks;
+  protected services = footerServices;
+  protected profile = organizationProfile;
+  protected socialLinks = socialLinks;
+
+  constructor() {
+    this.siteContent.getContent().subscribe((content) => {
+      this.quickLinks = content.footerQuickLinks;
+      this.services = content.footerServices;
+      this.profile = content.organizationProfile;
+      this.socialLinks = content.socialLinks;
+    });
+  }
 }

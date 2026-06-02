@@ -1,0 +1,321 @@
+<section class="ve-admin-template">
+  <div class="ve-overlay" [class.show]="mobileSidebarOpen()" (click)="closeMobileSidebar()"></div>
+
+  <nav class="ve-template-topbar" [class.full]="sidebarCollapsed()">
+    <div class="ve-topbar-left">
+      <button class="ve-icon-button desktop-only" type="button" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <button class="ve-icon-button mobile-only" type="button" (click)="openMobileSidebar()" aria-label="Open sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="ve-admin-search">
+        <lucide-icon name="search" [size]="18"></lucide-icon>
+        <span>{{ selectedResourceKey === 'overview' ? 'Dashboard overview' : selectedResource()?.label }}</span>
+      </div>
+    </div>
+
+    <div class="ve-topbar-actions">
+      <button class="ve-notice-button" type="button" (click)="selectResource('contactSubmissions')">
+        <lucide-icon name="bell" [size]="20"></lucide-icon>
+        @if (summary?.counts?.unhandledSubmissions) {
+          <span>{{ summary?.counts?.unhandledSubmissions }}</span>
+        }
+      </button>
+      <button class="ve-profile-button" type="button" aria-label="Signed in profile">
+        <img src="img/logo.jpeg" alt="TAMONGSCO admin" />
+        <span>{{ user()?.username }}</span>
+      </button>
+    </div>
+  </nav>
+
+  <aside class="ve-template-sidebar" [class.collapsed]="sidebarCollapsed()" [class.mobile-show]="mobileSidebarOpen()">
+    <div class="ve-icon-rail">
+      @for (group of navigationGroups; track group.key) {
+        @for (item of group.items; track item.key) {
+          <button
+            type="button"
+            class="ve-rail-item"
+            [class.active]="selectedResourceKey === item.key"
+            (click)="selectResource(item.key)"
+          >
+            <lucide-icon [name]="item.icon" [size]="24"></lucide-icon>
+            <span>{{ item.label }}</span>
+          </button>
+        }
+      }
+    </div>
+
+    <div class="ve-service-panel">
+      <div class="ve-template-logo">
+        <a routerLink="/admin/dashboard">
+          <strong>TA</strong>
+          <span>
+            <b>TAMONGSCO</b>
+            <small>Management Portal</small>
+          </span>
+        </a>
+      </div>
+
+      <ul class="ve-template-nav">
+        @for (group of navigationGroups; track group.key) {
+          <li
+            class="ve-nav-group"
+            [class.open]="isNavigationGroupOpen(group.key)"
+            [class.active]="isNavigationGroupActive(group)"
+          >
+            <button
+              type="button"
+              class="ve-nav-group-toggle"
+              [attr.aria-expanded]="isNavigationGroupOpen(group.key)"
+              [attr.aria-controls]="'admin-nav-group-' + group.key"
+              (click)="toggleNavigationGroup(group.key)"
+            >
+              <lucide-icon [name]="group.icon" [size]="22"></lucide-icon>
+              <span>
+                <b>{{ group.label }}</b>
+                <small>{{ group.items.length }} {{ group.items.length === 1 ? 'section' : 'sections' }}</small>
+              </span>
+              <lucide-icon class="ve-nav-chevron" name="chevron-down" [size]="18"></lucide-icon>
+            </button>
+            <ul class="ve-nav-submenu" [id]="'admin-nav-group-' + group.key">
+              @for (item of group.items; track item.key) {
+                <li>
+                  <button
+                    type="button"
+                    class="ve-nav-link"
+                    [class.active]="selectedResourceKey === item.key"
+                    (click)="selectResource(item.key)"
+                  >
+                    <lucide-icon [name]="item.icon" [size]="24"></lucide-icon>
+                    <span>
+                      <b>{{ item.label }}</b>
+                      <small>{{ item.hint }}</small>
+                    </span>
+                  </button>
+                </li>
+              }
+            </ul>
+          </li>
+        }
+        <li class="ve-panel-help">Manage public content through the same data used by the frontend.</li>
+        <li class="ve-nav-label"><small>Account</small></li>
+        <li>
+          <a routerLink="/">
+            <lucide-icon name="globe" [size]="18"></lucide-icon>
+            <span><b>View Site</b><small>Public frontend</small></span>
+          </a>
+        </li>
+        <li>
+          <button type="button" (click)="logout()">
+            <lucide-icon name="arrow-right" [size]="18"></lucide-icon>
+            <span><b>Sign out</b><small>End session</small></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="ve-template-content" [class.full]="sidebarCollapsed()">
+    <div class="ve-fluid">
+      <div class="ve-page-title">
+        <div>
+          <span class="ve-page-kicker">Backend management</span>
+          <h1>{{ selectedResourceKey === 'overview' ? 'Dashboard' : selectedResource()?.label }}</h1>
+          <p>{{ selectedNavItem().hint }}.</p>
+        </div>
+        <div class="ve-admin-user">
+          <span>Signed in as</span>
+          <strong>{{ user()?.username }}</strong>
+        </div>
+      </div>
+
+      @if (loading) {
+        <div class="ve-template-card ve-loading">Loading dashboard...</div>
+      } @else if (summary && selectedResourceKey === 'overview') {
+        <div class="ve-stat-grid">
+          <div class="ve-stat-card primary">
+            <div class="ve-stat-icon"><lucide-icon name="file-text" [size]="22"></lucide-icon></div>
+            <div>
+              <h2>News Posts</h2>
+              <strong>{{ summary.counts.posts }}</strong>
+              <p>{{ summary.counts.editableSections }} editable site controls</p>
+            </div>
+          </div>
+          <div class="ve-stat-card success">
+            <div class="ve-stat-icon"><lucide-icon name="newspaper" [size]="22"></lucide-icon></div>
+            <div>
+              <h2>Services</h2>
+              <strong>{{ summary.counts.services }}</strong>
+              <p>Homepage and service-page cards</p>
+            </div>
+          </div>
+          <div class="ve-stat-card info">
+            <div class="ve-stat-icon"><lucide-icon name="message-circle-question" [size]="22"></lucide-icon></div>
+            <div>
+              <h2>FAQs</h2>
+              <strong>{{ summary.counts.faqs }}</strong>
+              <p>Services and resources questions</p>
+            </div>
+          </div>
+          <div class="ve-stat-card warning">
+            <div class="ve-stat-icon"><lucide-icon name="mail" [size]="22"></lucide-icon></div>
+            <div>
+              <h2>Open Messages</h2>
+              <strong>{{ summary.counts.unhandledSubmissions }}</strong>
+              <p>{{ summary.counts.submissions }} total submissions</p>
+            </div>
+          </div>
+          <div class="ve-stat-card users">
+            <div class="ve-stat-icon"><lucide-icon name="users-round" [size]="22"></lucide-icon></div>
+            <div>
+              <h2>Admin Users</h2>
+              <strong>{{ summary.counts.users }}</strong>
+              <p>Dashboard access accounts</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ve-management-grid">
+          <div class="ve-template-card">
+            <div class="ve-card-header">
+              <h3>Recent Messages</h3>
+              <button type="button" (click)="selectResource('contactSubmissions')">Manage</button>
+            </div>
+
+            @if (summary.recentSubmissions.length) {
+              <div class="ve-message-list">
+                @for (message of summary.recentSubmissions; track message.email + message.createdAt) {
+                  <div class="ve-message-item">
+                    <div>
+                      <strong>{{ message.name }}</strong>
+                      <span>{{ message.email }}</span>
+                    </div>
+                    <p>{{ message.subject || 'General message' }}</p>
+                    <mark [class.handled]="message.isHandled">
+                      {{ message.isHandled ? 'Handled' : 'Open' }}
+                    </mark>
+                  </div>
+                }
+              </div>
+            } @else {
+              <p class="ve-empty-state">No contact messages yet.</p>
+            }
+          </div>
+
+          <div class="ve-template-card">
+            <div class="ve-card-header">
+              <h3>Quick Management</h3>
+            </div>
+            <div class="ve-control-links">
+              @for (group of navigationGroups; track group.label) {
+                <div class="ve-control-group">
+                  <span>{{ group.label }}</span>
+                  @for (item of group.items; track item.key) {
+                    <button type="button" (click)="selectResource(item.key)">
+                      {{ item.label }}
+                      <small>{{ item.hint }}</small>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      } @else if (selectedResource()) {
+        <div class="ve-template-card ve-resource-card">
+          <div class="ve-card-header">
+            <h3>{{ selectedResource()?.label }}</h3>
+            <div class="ve-resource-actions">
+              @if (saveMessage) {
+                <span>{{ saveMessage }}</span>
+              }
+              @if (selectedResource()?.singleton && selectedResource()?.items?.length) {
+                <small>Single record</small>
+              }
+              @if (canCreateSelectedResource()) {
+                <button type="button" (click)="startCreate()">Add New</button>
+              }
+            </div>
+          </div>
+
+          @if (editingItem && selectedResource(); as resource) {
+            <form class="ve-edit-form" (submit)="saveItem($event)">
+              @for (field of resource.fields; track field.name) {
+                <label [class.full]="field.type === 'textarea' || field.type === 'json'">
+                  <span>{{ field.label }}</span>
+                  @if (field.type === 'textarea' || field.type === 'json') {
+                    <textarea
+                      rows="5"
+                      [disabled]="resource.readOnly"
+                      [value]="fieldValue(field)"
+                      (input)="setFieldValue(field, $any($event.target).value)"
+                    ></textarea>
+                  } @else if (field.type === 'boolean') {
+                    <input
+                      type="checkbox"
+                      [disabled]="resource.readOnly"
+                      [checked]="editingItem[field.name]"
+                      (change)="setFieldValue(field, $any($event.target).checked)"
+                    />
+                  } @else {
+                    <input
+                      [type]="field.type === 'number' ? 'number' : 'text'"
+                      [disabled]="resource.readOnly"
+                      [value]="fieldValue(field)"
+                      (input)="setFieldValue(field, $any($event.target).value)"
+                    />
+                  }
+                </label>
+              }
+              <div class="ve-form-actions">
+                <button type="button" class="secondary" (click)="cancelEdit()">
+                  {{ resource.readOnly ? 'Close' : 'Cancel' }}
+                </button>
+                @if (!resource.readOnly) {
+                  <button type="submit" [disabled]="saving">{{ saving ? 'Saving...' : 'Save' }}</button>
+                }
+              </div>
+            </form>
+          }
+
+          @if (selectedResource(); as resource) {
+            <div class="ve-resource-table-wrap">
+              <table class="ve-resource-table">
+                <thead>
+                  <tr>
+                    @for (field of resource.fields.slice(0, 4); track field.name) {
+                      <th>{{ field.label }}</th>
+                    }
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (item of resource.items; track item['id']) {
+                    <tr>
+                      @for (field of resource.fields.slice(0, 4); track field.name) {
+                        <td>{{ displayValue(item, field) }}</td>
+                      }
+                      <td>
+                        @if (!resource.readOnly) {
+                          <button type="button" (click)="startEdit(item)">Edit</button>
+                          <button type="button" class="danger" (click)="deleteItem(item)">Delete</button>
+                        } @else {
+                          <button type="button" (click)="startEdit(item)">View</button>
+                        }
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td [attr.colspan]="resource.fields.slice(0, 4).length + 1">No records yet.</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </main>
+</section>

@@ -9,10 +9,18 @@
         </div>
       </div>
       <div class="ve-nl-right">
-        <form class="ve-nl-form" (submit)="preventSubmit($event)">
-          <input type="email" placeholder="Enter your email address" required />
-          <button type="submit">Subscribe</button>
+        <form class="ve-nl-form" (submit)="subscribe($event)">
+          <input type="email" placeholder="Enter your email address" required [(ngModel)]="email" name="email" />
+          <button type="submit" [disabled]="submitState === 'sending'">
+            {{ submitState === 'sending' ? 'Subscribing...' : 'Subscribe' }}
+          </button>
         </form>
+        @if (submitState === 'sent') {
+          <p class="ve-form-feedback">Subscription saved.</p>
+        }
+        @if (submitState === 'error') {
+          <p class="ve-form-feedback">Subscription failed. Please try again.</p>
+        }
       </div>
     </div>
   </div>

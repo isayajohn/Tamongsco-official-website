@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 /* You can add global styles to this file, and also import other style files */
 html {
   scroll-behavior: smooth;
@@ -7,6 +9,10 @@ body {
   background: var(--ve-light, #f7fbf2);
   color: var(--ve-text, #35506b);
   overflow-x: hidden;
+}
+
+body:has(.ve-admin-template) {
+  background: #fafafa;
 }
 
 .ve-logo-mark {

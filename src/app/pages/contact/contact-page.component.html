@@ -32,23 +32,23 @@
             Use the form below for membership inquiries, resource requests, or general TAMONGSCO
             support.
           </p>
-          <form class="ve-contact-form" (submit)="preventSubmit($event)">
+          <form class="ve-contact-form" (submit)="submitContact($event)">
             <div class="ve-form-row">
               <div class="ve-form-group">
-                <label>Full Name</label><input type="text" placeholder="Your full name" required />
+                <label>Full Name</label><input type="text" placeholder="Your full name" required [(ngModel)]="form.name" name="name" />
               </div>
               <div class="ve-form-group">
-                <label>Email Address</label><input type="email" placeholder="Your email" required />
+                <label>Email Address</label><input type="email" placeholder="Your email" required [(ngModel)]="form.email" name="email" />
               </div>
             </div>
             <div class="ve-form-row">
               <div class="ve-form-group">
-                <label>Phone Number</label><input type="tel" placeholder="Your phone" />
+                <label>Phone Number</label><input type="tel" placeholder="Your phone" [(ngModel)]="form.phone" name="phone" />
               </div>
               <div class="ve-form-group">
                 <label>Topic</label>
-                <select>
-                  <option>Select a topic</option>
+                <select [(ngModel)]="form.topic" name="topic">
+                  <option value="">Select a topic</option>
                   <option>Membership</option>
                   <option>Advocacy</option>
                   <option>Resources</option>
@@ -62,11 +62,20 @@
               <textarea
                 rows="5"
                 placeholder="Tell us how TAMONGSCO can support your institution..."
+                required
+                [(ngModel)]="form.message"
+                name="message"
               ></textarea>
             </div>
-            <button type="submit" class="ve-btn-primary">
-              Send Message <app-site-icon name="send" [size]="18"></app-site-icon>
+            <button type="submit" class="ve-btn-primary" [disabled]="submitState === 'sending'">
+              {{ submitState === 'sending' ? 'Sending...' : 'Send Message' }} <app-site-icon name="send" [size]="18"></app-site-icon>
             </button>
+            @if (submitState === 'sent') {
+              <p class="ve-form-feedback">Message sent successfully.</p>
+            }
+            @if (submitState === 'error') {
+              <p class="ve-form-feedback">Message could not be sent. Please try again.</p>
+            }
           </form>
         </div>
       </div>

@@ -24,19 +24,6 @@
           </a>
         }
       </div>
- 
-      <div class="ve-hero-partners">
-        <p class="ve-hero-partners-label">Partner network</p>
-        <div class="ve-hero-partners-marquee">
-          <div class="ve-hero-partners-track">
-            @for (partner of heroPartners; track partner.image + $index) {
-              <div class="ve-hero-partner-card">
-                <img [src]="partner.image" [alt]="partner.name + ' logo'" />
-              </div>
-            }
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -198,6 +185,24 @@
     </div>
   </div>
 </section>
+
+<div class="ve-partners-section">
+  <div class="container">
+    <div class="ve-section-header ve-partners-header text-center">
+      <span class="ve-section-tag">Partners</span>
+      <h2>Our <span>Partner Network</span></h2>
+    </div>
+    <div class="ve-partners-marquee" aria-label="TAMONGSCO partner logos">
+      <div class="ve-partners-track">
+        @for (partner of heroPartners; track partner.image + $index) {
+          <div class="ve-partner-card">
+            <img [src]="partner.image" [alt]="partner.name + ' logo'" />
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
 
 <app-newsletter-banner
   [title]="newsletter.title"

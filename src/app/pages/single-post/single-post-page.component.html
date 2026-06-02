@@ -13,47 +13,10 @@
         <article class="ve-article">
           <div
             class="ve-article-featured bg-img"
-            style="background-image: url(img/bg-img/10.jpg)"
+            [style.background-image]="'url(' + post.image + ')'"
           ></div>
           <div class="ve-article-body">
-            <p class="ve-article-lead">
-              TAMONGSCO presents itself as a national platform for non-government schools and
-              colleges, focused on collaboration, representation, and educational excellence across
-              Tanzania.
-            </p>
-            <h3>1. Empowering Education</h3>
-            <p>
-              The homepage headline emphasizes uniting schools and colleges for a brighter future,
-              positioning the association as a connector for education providers throughout the
-              country.
-            </p>
-            <h3>2. Representation and Collaboration</h3>
-            <p>
-              The site highlights advocacy, collaboration, and resources as its public-facing
-              support areas while also stressing communication with government bodies.
-            </p>
-            <blockquote class="ve-blockquote">
-              <p>
-                "At TAMONGSCO, we connect and represent non-government educational institutions
-                across Tanzania."
-              </p>
-              <cite>— Homepage message</cite>
-            </blockquote>
-            <h3>3. Practical Member Support</h3>
-            <p>
-              Membership is described as a way to access networking opportunities, resources, and
-              support that help institutions thrive in a competitive environment.
-            </p>
-            <h3>4. Community Voice</h3>
-            <p>
-              Member feedback on the site points to better operations, stronger policy guidance, and
-              improved access to helpful resources through the association.
-            </p>
-            <h3>5. Staying Updated</h3>
-            <p>
-              The news area and quick links show that updates, events, and member information are
-              part of the organization’s ongoing communication.
-            </p>
+            <div [innerHTML]="post.bodyHtml || post.excerpt"></div>
             <div class="ve-article-tags">
               <strong>Tags:</strong>
               @for (tag of tags.slice(0, 4); track tag) {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
 
 import { PageHeroComponent } from '../../shared/components/page-hero/page-hero.component';
@@ -9,6 +9,14 @@ import { CounterItem, FaqItem, ServiceCard } from '../../data/models';
 import { elementsFaqColumnOne, elementsFaqColumnTwo, resourceCards } from '../../data/resources.data';
 import { newsletterBannerContent } from '../../data/organization.data';
 import { processSteps } from '../../data/services.data';
+import { SiteContentService } from '../../services/site-content.service';
+
+interface ProcessStep {
+  number: string;
+  title: string;
+  description: string;
+  delay?: string;
+}
 
 @Component({
   selector: 'app-elements-page',
@@ -23,20 +31,32 @@ import { processSteps } from '../../data/services.data';
   styleUrl: './elements-page.component.scss',
 })
 export class ElementsPageComponent {
-  protected readonly resourceCards: ServiceCard[] = resourceCards;
-  protected readonly faqColumnOne: FaqItem[] = elementsFaqColumnOne;
-  protected readonly faqColumnTwo: FaqItem[] = elementsFaqColumnTwo;
-  protected readonly newsletter = newsletterBannerContent;
-  protected readonly steps = processSteps;
-  protected readonly counters: CounterItem[] = [
+  private readonly siteContent = inject(SiteContentService);
+
+  protected resourceCards: ServiceCard[] = resourceCards;
+  protected faqColumnOne: FaqItem[] = elementsFaqColumnOne;
+  protected faqColumnTwo: FaqItem[] = elementsFaqColumnTwo;
+  protected newsletter = newsletterBannerContent;
+  protected steps: ProcessStep[] = processSteps;
+  protected counters: CounterItem[] = [
     { icon: 'groups', value: 150, suffix: '+', label: 'Member Institutions' },
     { icon: 'article', value: 75, suffix: '+', label: 'Shared Resources' },
     { icon: 'forum', value: 25, suffix: '+', label: 'Annual Events' },
     { icon: 'star', value: 98, suffix: '%', label: 'Member Satisfaction' }
   ];
 
+  constructor() {
+    this.siteContent.getContent().subscribe((content) => {
+      this.resourceCards = content.resourceCards;
+      this.faqColumnOne = content.elementsFaqColumnOne;
+      this.faqColumnTwo = content.elementsFaqColumnTwo;
+      this.newsletter = content.newsletterBannerContent;
+      this.steps = content.processSteps;
+      this.counters = content.elementsCounters;
+    });
+  }
+
   protected preventSubmit(event: Event): void {
     event.preventDefault();
   }
 }
-

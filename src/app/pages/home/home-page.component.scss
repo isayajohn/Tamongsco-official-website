@@ -4,9 +4,9 @@
 
 .ve-hero {
   position: relative;
-  min-height: calc(100vh - 72px);
+  min-height: clamp(1050px, 78vh, 680px);
   margin-top: 72px;
-  padding: 124px 0 104px;
+  padding: 102px 0 76px;
   overflow: hidden;
   background: linear-gradient(135deg, var(--ve-dark2) 0%, var(--ve-dark) 48%, var(--ve-navy) 100%);
 }
@@ -59,7 +59,7 @@
   margin: 0 auto 18px;
   font-size: clamp(2.9rem, 5.4vw, 4.9rem);
   line-height: 1.02;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   font-weight: 800;
   color: #fff;
 }
@@ -95,54 +95,6 @@
   gap: 14px;
   justify-content: center;
   margin-bottom: 0;
-}
-
-.ve-hero-partners {
-  margin-top: 34px;
-}
-
-.ve-hero-partners-label {
-  margin: 0 0 14px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.ve-hero-partners-marquee {
-  overflow: hidden;
-  padding: 2px 0;
-  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-}
-
-.ve-hero-partners-track {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  width: max-content;
-  animation: vePartnerScroll 26s linear infinite;
-}
-
-.ve-hero-partner-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 168px;
-  min-width: 168px;
-  height: 92px;
-  padding: 14px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 16px 40px rgba(3, 20, 40, 0.18);
-}
-
-.ve-hero-partner-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .ve-hero :is(.ve-btn-primary, .ve-btn-ghost) {
@@ -201,6 +153,57 @@
   }
 }
 
+.ve-partners-section {
+  overflow: hidden;
+  padding: 78px 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(var(--ve-gold-rgb), 0.08)),
+    var(--ve-light);
+}
+
+.ve-partners-header {
+  margin-bottom: 30px;
+}
+
+.ve-partners-header h2 {
+  margin-bottom: 0;
+}
+
+.ve-partners-marquee {
+  overflow: hidden;
+  padding: 6px 0;
+  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.ve-partners-track {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: max-content;
+  animation: vePartnerScroll 26s linear infinite;
+}
+
+.ve-partner-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 168px;
+  min-width: 168px;
+  height: 92px;
+  padding: 14px 18px;
+  border: 1px solid rgba(var(--ve-navy-rgb), 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 16px 40px rgba(3, 20, 40, 0.1);
+}
+
+.ve-partner-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 @media (max-width: 1199px) {
   .ve-hero-copy {
     max-width: 700px;
@@ -210,7 +213,7 @@
     font-size: clamp(2.6rem, 6vw, 4.2rem);
   }
 
-  .ve-hero-partner-card {
+  .ve-partner-card {
     width: 156px;
     min-width: 156px;
     height: 86px;
@@ -219,7 +222,8 @@
 
 @media (max-width: 767px) {
   .ve-hero {
-    padding: 112px 0 84px;
+    min-height: auto;
+    padding: 92px 0 58px;
   }
 
   .ve-hero-copy h1 {
@@ -233,20 +237,19 @@
     max-width: 100%;
   }
 
-  .ve-hero-partners {
-    margin-top: 28px;
+  .ve-partners-section {
+    padding: 62px 0;
   }
 
-  .ve-hero-partners-label {
-    margin-bottom: 12px;
+  .ve-partners-header {
+    margin-bottom: 22px;
   }
 
-  .ve-hero-partner-card {
+  .ve-partner-card {
     width: 140px;
     min-width: 140px;
     height: 78px;
     padding: 12px 14px;
-    border-radius: 18px;
   }
 
   .ve-hero :is(.ve-btn-primary, .ve-btn-ghost) {
